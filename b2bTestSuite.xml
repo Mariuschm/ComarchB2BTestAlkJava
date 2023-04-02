@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Comarch B2B tests" verbose="9">
+    <test name="Login tests" preserve-order="true" enabled="true" parallel="true">        
+                <classes>
+                    <class name="pl.alk.tests.LoginTest"></class>
+                </classes>
+    </test>
+    <listeners>
+        <listener class-name="pl.alk.utils.CustomListener"></listener>
+    </listeners>
+</suite>
