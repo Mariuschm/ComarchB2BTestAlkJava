@@ -7,6 +7,8 @@ import java.util.Locale;
  * Class with fake data
  */
 public class FakeData {
+
+
     private String companyName;
     private String userName;
     private String password;
@@ -16,6 +18,18 @@ public class FakeData {
         companyName = faker.company().name();
         userName=faker.name().username();
         password=faker.internet().password(4,8);
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
 
