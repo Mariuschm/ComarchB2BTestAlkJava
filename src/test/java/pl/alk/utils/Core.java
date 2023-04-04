@@ -1,10 +1,12 @@
 package pl.alk.utils;
 
+import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.devtools.v85.domstorage.model.Item;
 import org.testng.Reporter;
 import pl.alk.model.ItemModel;
 import pl.alk.model.LoginDataModel;
@@ -13,9 +15,12 @@ import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 import javax.imageio.ImageIO;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -110,7 +115,7 @@ public class Core {
      * @param filename filename
      * @return List of items
      */
-    public List<ItemModel> getItems(String filename) {
+    public List<ItemModel> getItemsList(String filename) {
         List<ItemModel> ret = null;
         try {
             var sep = ";";
@@ -125,6 +130,33 @@ public class Core {
                 ret.add(csvIterator.next());
             }
             return ret;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Returns iterator with data for test
+     *
+     * @param filename source file name
+     * @return data for test
+     */
+    public Iterator<Object[]> getItemsIterator(String filename) {
+        String[] data = null;
+        String line = null;
+        List<Object[]> lines = new ArrayList<>();
+        Iterator<Object[]> res = null;
+        try {
+            var sep = ";";
+            var filereader = new FileReader(filename);
+            var csvReader = new BufferedReader(filereader);
+            while ((line = csvReader.readLine()) != null) {
+                lines.add(line.split(sep));
+            }
+            res = lines.iterator();
+            return res;
 
         } catch (Exception e) {
             e.printStackTrace();
