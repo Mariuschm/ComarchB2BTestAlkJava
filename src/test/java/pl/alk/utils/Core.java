@@ -123,7 +123,7 @@ public class Core {
             CsvToBean<ItemModel> csvReader = new CsvToBeanBuilder(filereader)
                     .withType(ItemModel.class)
                     .withIgnoreLeadingWhiteSpace(true)
-                    .withSeparator(sep.charAt(0))
+                    .withSeparator(Config.CSV_SEPARATOR)
                     .build();
             var csvIterator = csvReader.iterator();
             while (csvIterator.hasNext()) {
@@ -144,19 +144,16 @@ public class Core {
      * @return data for test
      */
     public Iterator<Object[]> getItemsIterator(String filename) {
-        String[] data = null;
-        String line = null;
-        List<Object[]> lines = new ArrayList<>();
-        Iterator<Object[]> res = null;
+
+        var lines = new ArrayList<Object[]>();
         try {
-            var sep = ";";
-            var filereader = new FileReader(filename);
-            var csvReader = new BufferedReader(filereader);
+
+            var csvReader = new BufferedReader(new FileReader(filename));
+            var line = "";
             while ((line = csvReader.readLine()) != null) {
-                lines.add(line.split(sep));
+                lines.add(line.split(String.valueOf(Config.CSV_SEPARATOR)));
             }
-            res = lines.iterator();
-            return res;
+            return lines.iterator();
 
         } catch (Exception e) {
             e.printStackTrace();

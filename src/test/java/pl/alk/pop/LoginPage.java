@@ -1,8 +1,15 @@
 package pl.alk.pop;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.alk.model.LoginResult;
+
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
     @FindBy(id = "customerName-field")
@@ -15,10 +22,9 @@ public class LoginPage extends BasePage {
     private WebElement termsAndConditions;
     @FindBy(xpath = "//button[@class='action primary-action']")
     private WebElement loginButton;
-    @FindBy(xpath = "//div[@class='danger text-center']")
-    private WebElement loginErrorMessage;
-    @FindBy(xpath = "/small[@class='validation-error danger']")
-    private WebElement termsNotAcceptedError;
+    private By loginErrorMessage = By.xpath( "//div[@class='danger text-center']");
+    private By termsNotAcceptedError = By.xpath( "//small[@class='validation-error danger']");
+
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -32,18 +38,44 @@ public class LoginPage extends BasePage {
      * @param userName    User name
      * @param password    Password
      * @param acceptTerms Do you accept terms
-     * @return Main page if ok, null if error
+     * @return returns LoginResult class, MainPage gets null on error, possible result values
+     * 1 - ok
+     * -1 - invalid login daa
+     * -2 - terms and conditions not acceptd
      */
-    public MainPage login(String companyName, String userName, String password, boolean acceptTerms) {
+    public LoginResult login(String companyName, String userName, String password, boolean acceptTerms) {
+        var res = new LoginResult();
         customerNameInput.sendKeys(companyName);
         userNameInput.sendKeys(userName);
         passwordInput.sendKeys(password);
         if (acceptTerms)
             termsAndConditions.click();
         loginButton.click();
-        if (loginErrorMessage != null || termsNotAcceptedError != null)
-            return null;
-        return new MainPage();
+        try {
+            new WebDriverWait(this.driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOfElementLocated(loginErrorMessage));
+            var loginError = driver.findElement(loginErrorMessage);
+            if (loginError.isDisplayed()) {
+                res.setPage(null);
+                res.setResult(-1);
+            }
+            return res;
+        }
+        catch (TimeoutException e) {
+        }
+        try {
+            new WebDriverWait(this.driver,Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOfElementLocated(termsNotAcceptedError));
+            var termsNotAccepted =  driver.findElement(termsNotAcceptedError);
+            if (termsNotAccepted.isDisplayed()){
+                res.setPage(null);
+                res.setResult(-2);
+                return res;
+            }
+        }  catch (TimeoutException e) {
+        }
+
+        res.setPage(new MainPage(driver));
+        res. setResult(0);
+        return res;
     }
 
 }

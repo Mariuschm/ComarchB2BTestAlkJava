@@ -2,7 +2,7 @@
 <suite name="Comarch B2B tests" verbose="9">
     <test name="Login tests" preserve-order="true" enabled="true" parallel="true">        
                 <classes>
-                    <class name="pl.alk.tests.LoginTest"></class>
+                    <class name="pl.alk.tests.B2bTests"></class>
                 </classes>
     </test>
     <listeners>
