@@ -22,8 +22,8 @@ public class LoginPage extends BasePage {
     private WebElement termsAndConditions;
     @FindBy(xpath = "//button[@class='action primary-action']")
     private WebElement loginButton;
-    private By loginErrorMessage = By.xpath( "//div[@class='danger text-center']");
-    private By termsNotAcceptedError = By.xpath( "//small[@class='validation-error danger']");
+    private final By loginErrorMessage = By.xpath( "//div[@class='danger text-center']");
+    private final By termsNotAcceptedError = By.xpath( "//small[@class='validation-error danger']");
 
 
     public LoginPage(WebDriver driver) {
@@ -32,7 +32,7 @@ public class LoginPage extends BasePage {
 
     /**
      * Login to Comarch B2B. When credentials are valid MainPage is returned;
-     * If any error appears method returns null.     *
+     * If any error appears method returns null.
      *
      * @param companyName Company name
      * @param userName    User name
@@ -41,7 +41,7 @@ public class LoginPage extends BasePage {
      * @return returns LoginResult class, MainPage gets null on error, possible result values
      * 1 - ok
      * -1 - invalid login daa
-     * -2 - terms and conditions not acceptd
+     * -2 - terms and conditions not accepted
      */
     public LoginResult login(String companyName, String userName, String password, boolean acceptTerms) {
         var res = new LoginResult();
@@ -74,7 +74,7 @@ public class LoginPage extends BasePage {
         }
 
         res.setPage(new MainPage(driver));
-        res. setResult(0);
+        res.setResult(1);
         return res;
     }
 

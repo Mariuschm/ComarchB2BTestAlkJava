@@ -1,4 +1,9 @@
 package pl.alk.pop;
 
-public class ItemsPage {
+import org.openqa.selenium.WebDriver;
+
+public class ItemsPage  extends BasePage{
+    public ItemsPage(WebDriver driver) {
+        super(driver);
+    }
 }
