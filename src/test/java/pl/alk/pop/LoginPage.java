@@ -20,10 +20,10 @@ public class LoginPage extends BasePage {
     private WebElement passwordInput;
     @FindBy(xpath = "//span[@class='vmiddle']")
     private WebElement termsAndConditions;
-    @FindBy(xpath = "//button[@class='action primary-action']")
+    @FindBy(css = ".primary-action")
     private WebElement loginButton;
-    private final By loginErrorMessage = By.xpath( "//div[@class='danger text-center']");
-    private final By termsNotAcceptedError = By.xpath( "//small[@class='validation-error danger']");
+    private final By loginErrorMessage = By.cssSelector("small[class$='danger']");
+    private final By termsNotAcceptedError = By.cssSelector("div[class='danger text-center']");
 
 
     public LoginPage(WebDriver driver) {
@@ -59,18 +59,17 @@ public class LoginPage extends BasePage {
                 res.setResult(-1);
             }
             return res;
-        }
-        catch (TimeoutException e) {
+        } catch (TimeoutException e) {
         }
         try {
-            new WebDriverWait(this.driver,Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOfElementLocated(termsNotAcceptedError));
-            var termsNotAccepted =  driver.findElement(termsNotAcceptedError);
-            if (termsNotAccepted.isDisplayed()){
+            new WebDriverWait(this.driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOfElementLocated(termsNotAcceptedError));
+            var termsNotAccepted = driver.findElement(termsNotAcceptedError);
+            if (termsNotAccepted.isDisplayed()) {
                 res.setPage(null);
                 res.setResult(-2);
                 return res;
             }
-        }  catch (TimeoutException e) {
+        } catch (TimeoutException e) {
         }
 
         res.setPage(new MainPage(driver));

@@ -15,15 +15,16 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
-public class MainPage extends  BasePage {
+public class MainPage extends BasePage {
     @FindBy(xpath = "//i[@class='ti-briefcase']/following-sibling::*")
     private WebElement customerName;
     @FindBy(xpath = "//i[@class='ti-lock']/following-sibling::*")
     private WebElement employeeName;
     @FindBy(xpath = "//i[@class='ti-power-off']")
     private WebElement logoutButton;
-    private By categories = By.xpath("//li[@class='category-item inner-clear']");
-    private String categoryName = "(//li[@class='category-item inner-clear'])[{0}]//a[@class='group-label outline button f-left']";
+    private final By categories = By.xpath("//li[@class='category-item inner-clear']");
+    private final String categoryName = "(//li[@class='category-item inner-clear'])[{0}]//a[@class='group-label outline button f-left']";
+
     public MainPage(WebDriver driver) {
         super(driver);
         //Set implicitly wait for 1 s.
@@ -32,6 +33,7 @@ public class MainPage extends  BasePage {
 
     /**
      * Gets logged company label
+     *
      * @return logged company
      */
     public String getLoggedUser() {
@@ -41,39 +43,42 @@ public class MainPage extends  BasePage {
     /**
      * Terminates current session
      */
-    public void logOut(){
+    public void logOut() {
         logoutButton.click();
     }
 
     /**
      * Returns list o categories on page
+     *
      * @return list o Webelements
      */
-    public List<WebElement> getCategories(){
-            new WebDriverWait(this.driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(categories));
-            return driver.findElements(categories);
+    public List<WebElement> getCategories() {
+        new WebDriverWait(this.driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(categories));
+        return driver.findElements(categories);
     }
 
     /**
      * Returns list o categories with names
+     *
      * @return ArrayList of CategoryWithName
      */
-    public ArrayList<CategoryWithName> getCategoriesWithNames(){
+    public ArrayList<CategoryWithName> getCategoriesWithNames() {
         var ret = new ArrayList<CategoryWithName>();
         var index = 1;
-        for (WebElement category:getCategories()
-             ) {
-                var elem = new  CategoryWithName();
-                elem.Category = category;
-                elem.Name = String.valueOf(category.findElement(By.xpath(String.format(categoryName, index))));
-                ret.add(elem);
-                index++;
+        for (WebElement category : getCategories()
+        ) {
+            var elem = new CategoryWithName();
+            elem.Category = category;
+            elem.Name = String.valueOf(category.findElement(By.xpath(String.format(categoryName, index))));
+            ret.add(elem);
+            index++;
         }
-       return ret;
+        return ret;
     }
-    public ItemsPage getItems(WebElement category){
+
+    public ItemsPage getItems(WebElement category) {
         category.click();
-        return new  ItemsPage(driver);
+        return new ItemsPage(driver);
     }
 
 }

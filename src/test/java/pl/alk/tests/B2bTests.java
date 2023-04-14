@@ -46,10 +46,9 @@ public class B2bTests extends BaseTest {
                 true                                //Accept terms = true
         );
         mainPage = result.getPage();
-        if (mainPage!=null){
+        if (mainPage != null) {
             Assert.assertEquals(mainPage.getLoggedUser().toUpperCase(), loginData.getCompanyName().toUpperCase());
-        }
-        else {
+        } else {
             Assert.assertEquals(result.getResult(), 1);
         }
 
@@ -75,7 +74,7 @@ public class B2bTests extends BaseTest {
     )
     public void loginWithValidDataDoNotAcceptTerms() {
         var loginData = getLoginData(new File(System.getProperty("user.dir")).getAbsolutePath() + "/data/ValidLoginData.csv");
-        LoginResult result= loginPage.login(
+        LoginResult result = loginPage.login(
                 loginData.getCompanyName(),      //Valid company name
                 loginData.getUserName(),         //Valid user name
                 loginData.getPassword(),         //Valid password
@@ -104,7 +103,7 @@ public class B2bTests extends BaseTest {
     )
     public void loginWithInvalidDataTermsAccepted() {
         var faker = new FakeData();
-        LoginResult result= loginPage.login(
+        LoginResult result = loginPage.login(
                 faker.getCompanyName(),     //Invalid company name
                 faker.getUserName(),        //Invalid username
                 faker.getPassword(),        //Invalid password
@@ -119,8 +118,9 @@ public class B2bTests extends BaseTest {
             dataProvider = "items",
             dependsOnMethods = "loginWithValidDataTermsAccepted")
     public void addToCartTest(String category, String code, String quantity) {
-             Assert.assertTrue(true);
+        Assert.assertTrue(true);
     }
+
     @Test(priority = 3,
             description = """
                     Test change o items view. Entry point\r
@@ -140,34 +140,34 @@ public class B2bTests extends BaseTest {
                     2. Class of div is changed""",
             testName = "TC301 Change items view style"
     )
-    public void changeItemsView()
-    {
+    public void changeItemsView() {
         var loginData = getLoginData(new File(System.getProperty("user.dir")).getAbsolutePath() + "/data/ValidLoginData.csv");
-        LoginResult result= loginPage.login(
+        LoginResult result = loginPage.login(
                 loginData.getCompanyName(),      //Valid company name
                 loginData.getUserName(),         //Valid user name
                 loginData.getPassword(),         //Valid password
                 true                           //Accept terms = true
         );
-        if (result.getResult()==1){
+        if (result.getResult() == 1) {
             //Star test
             this.mainPage = result.getPage();
             //get categories
             List<WebElement> cats = mainPage.getCategories();
             //Get random click random category
             mainPage.getItems(cats.get(2));
-        }
-        else {
+        } else {
             // Could not log in
             Assert.fail();
         }
     }
+
     @Test(description = "Show active order list")
-    public void getOpenOrdersData(){
+    public void getOpenOrdersData() {
 
     }
+
     @Test(description = "Test order printout")
-    public void printOrderData(){
+    public void printOrderData() {
 
     }
 
