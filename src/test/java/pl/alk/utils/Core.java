@@ -26,6 +26,24 @@ import java.util.List;
 
 public class Core {
     protected static WebDriver driver;
+    public static Boolean isLogged = false; //Set at false as default
+    private static int cartId =0;
+
+    /***
+     * Gets cart id
+     * @return id of added cart
+     */
+    public static   int getCartId() {
+        return cartId;
+    }
+
+    /***
+     * Sets id of added cart
+     * @param id of a cart
+     */
+    public void setCartId(int id) {
+        cartId = id;
+    }
 
     /**
      * Create and return browser driver
@@ -35,21 +53,14 @@ public class Core {
      */
     public static WebDriver setDriver(String browser) {
         switch (browser.toLowerCase()) {
-            case "firefox":
-                driver = WebDriverManager.firefoxdriver().create();
-                break;
-            case "chromium":
-                driver = WebDriverManager.chromiumdriver().create();
-                break;
-            case "edge":
-                driver = WebDriverManager.edgedriver().create();
-                break;
-            default:
-                driver = WebDriverManager.chromedriver().create();
-                break;
+            case "firefox" -> driver = WebDriverManager.firefoxdriver().create();
+            case "chromium" -> driver = WebDriverManager.chromiumdriver().create();
+            case "edge" -> driver = WebDriverManager.edgedriver().create();
+            default -> driver = WebDriverManager.chromedriver().create();
         }
         return driver;
     }
+
 
     /**
      * Creates a screenshot of current view

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.alk.model.LoginResult;
+import pl.alk.utils.Core;
 
 import java.time.Duration;
 
@@ -74,6 +75,7 @@ public class LoginPage extends BasePage {
 
         res.setPage(new MainPage(driver));
         res.setResult(1);
+        Core.isLogged =true;
         return res;
     }
 

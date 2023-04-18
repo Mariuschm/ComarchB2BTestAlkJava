@@ -22,6 +22,8 @@ public class MainPage extends BasePage {
     private WebElement employeeName;
     @FindBy(xpath = "//i[@class='ti-power-off']")
     private WebElement logoutButton;
+    @FindBy(css = "i[class$='ti-package']")
+    private WebElement pendingItemsBtn;
     private final By categories = By.xpath("//li[@class='category-item inner-clear']");
     private final String categoryName = "(//li[@class='category-item inner-clear'])[{0}]//a[@class='group-label outline button f-left']";
 
@@ -79,6 +81,11 @@ public class MainPage extends BasePage {
     public ItemsPage getItems(WebElement category) {
         category.click();
         return new ItemsPage(driver);
+    }
+
+    public PendingItemsPage getPendingItems(){
+        pendingItemsBtn.click();
+        return  new PendingItemsPage(driver);
     }
 
 }
