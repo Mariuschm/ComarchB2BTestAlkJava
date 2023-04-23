@@ -4,31 +4,56 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.alk.model.CategoryWithName;
+import pl.alk.model.ItemWithName;
+
+import java.time.Duration;
+import java.util.ArrayList;
 
 public class ItemsPage  extends BasePage{
+
     @FindBy(css = "i[class='ti-view-grid']")
     protected WebElement setThumbnailViewBtn;
     @FindBy(css = "i[class='ti-view-list-alt']")
     protected WebElement setListViewBtn;
     @FindBy(css = "i[class='ti-view-list']")
     protected WebElement setDetailsViewBtn;
-
     @FindBy(css = "div[class$='products-list']")
     protected WebElement productsList;
     @FindBy(css = "div[class*='list-container']")
     protected WebElement productsContainer;
-    protected By getProducts=(By.cssSelector("div[class=\"item-info name\"]"));
+
+    protected By quantityInput = By.cssSelector("input");
+    protected By addToCartButton = By.cssSelector("button[class*='add-to-cart']");
+    protected By cartSelector = By.xpath("//app-cart-select[@name='cartId']");
+    protected By newCartButton = By.id("cartId--1");
+    protected By cartConfirmation = By.cssSelector("div[class^='modal-content']");
+    protected By cartIdLabel = By.cssSelector("strong");
+    protected By goToCart = By.cssSelector("button[class='cart']");
+    protected By getProducts=(By.cssSelector("li[class*='list-item']"));
+    protected By itemNameLabel =By.cssSelector("p[class*='code']");
     public ItemsPage(WebDriver driver) {
         super(driver);
     }
+    /*Set view style support*/
+
+    /***
+     * Sets item view to ThumbnailView
+     */
     public void setThumbnailView(){
         setThumbnailViewBtn.click();
     }
-
+    /***
+     * Sets item view to ListView
+     */
     public void setListView(){
         setListViewBtn.click();
     }
-
+    /***
+     * Sets item view to Details
+     */
     public void setDetailsVie(){
         setDetailsViewBtn.click();
     }
@@ -55,8 +80,57 @@ public class ItemsPage  extends BasePage{
 
     }
 
+    /*Get items count*/
+    /***
+     * Gets items count on product list
+     * @return Number of items
+     */
     public int getItemsCount(){
         var items = productsList.findElements(getProducts);
         return items.size();
+    }
+
+    /***
+     * Gets a list of items displayed with their name
+     * @return ArrayList of Items with Name
+     */
+    public ArrayList<ItemWithName> getItemsWithNames(){
+        var ret = new ArrayList<ItemWithName>();
+        for (WebElement category : productsList.findElements(getProducts)) {
+            var elem = new ItemWithName();
+            elem.Item = category;
+            elem.Name = category.findElement(itemNameLabel).getText();
+            ret.add(elem);
+        }
+        return ret;
+    }
+
+    /*Add to cart support*/
+
+    /***
+     * Adds selected item to cart
+     * @param item one of items from list
+     * @param quantity item quantity
+     * @return Cart page
+     */
+    public CartPage addToCart(WebElement item, double quantity){
+        //Get quantity input and pass value
+        var qty = item.findElement(quantityInput);
+        qty.sendKeys(String.valueOf(quantity));
+        //Chose new cart
+        item.findElement(cartSelector).click();
+        new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait))
+                .until(ExpectedConditions.visibilityOfElementLocated(newCartButton));
+        //Click add to cart
+        item.findElement(addToCartButton).click();
+        //Wait for confirmation
+        new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait))
+                .until(ExpectedConditions.visibilityOfElementLocated(cartConfirmation));
+        //Get new cartId
+        this.driver.findElement(cartConfirmation);
+        cartId = Integer.parseInt(this.driver.findElement(cartIdLabel).getText());
+        //Go to CartPage
+        driver.findElement(goToCart).click();
+        return new CartPage(driver);
     }
 }

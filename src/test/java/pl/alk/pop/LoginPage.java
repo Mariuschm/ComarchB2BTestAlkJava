@@ -60,7 +60,7 @@ public class LoginPage extends BasePage {
                 res.setResult(-1);
             }
             return res;
-        } catch (TimeoutException e) {
+        } catch (TimeoutException ignored) {
         }
         try {
             new WebDriverWait(this.driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOfElementLocated(termsNotAcceptedError));
@@ -70,7 +70,7 @@ public class LoginPage extends BasePage {
                 res.setResult(-2);
                 return res;
             }
-        } catch (TimeoutException e) {
+        } catch (TimeoutException ignored) {
         }
 
         res.setPage(new MainPage(driver));

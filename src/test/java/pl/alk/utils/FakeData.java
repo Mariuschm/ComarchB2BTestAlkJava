@@ -1,6 +1,7 @@
 package pl.alk.utils;
 
 import com.github.javafaker.Faker;
+
 import java.util.Locale;
 
 /**
@@ -9,15 +10,15 @@ import java.util.Locale;
 public class FakeData {
 
 
-    private String companyName;
-    private String userName;
-    private String password;
+    private final String companyName;
+    private final String userName;
+    private final String password;
 
-    public FakeData(){
+    public FakeData() {
         var faker = new Faker(new Locale("pl-PL"));
         companyName = faker.company().name();
-        userName=faker.name().username();
-        password=faker.internet().password(4,8);
+        userName = faker.name().username();
+        password = faker.internet().password(4, 8);
     }
 
     public String getCompanyName() {

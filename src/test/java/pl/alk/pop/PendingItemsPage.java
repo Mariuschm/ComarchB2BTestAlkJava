@@ -2,20 +2,16 @@ package pl.alk.pop;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class PendingItemsPage extends BasePage {
-    @FindBy(css = "div[class^='grid-table']")
-    private WebElement itemsList;
 
-    @FindBy(css = "input[id='name-field']")
-    private WebElement searchByName;
 
-    @FindBy(css = "span[class*='grid-cell-full-row']")
-    private WebElement totalCount;
+    private final By itemsList = By.cssSelector("div[class^='grid-table']");
+    private final By totalCount = By.cssSelector("span[class*='grid-cell-full-row']");
     private final By items = By.cssSelector("div[class='grid-row body-row']");
     public PendingItemsPage(WebDriver driver) {
         super(driver);
@@ -26,7 +22,9 @@ public class PendingItemsPage extends BasePage {
      * @return size of items array
      */
     public int getPendingItemsCount(){
-        return itemsList.findElements(items).size();
+        new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait)).until(ExpectedConditions.visibilityOfElementLocated(itemsList));
+        var list = this.driver.findElement(itemsList);
+        return list.findElements(items).size();
     }
 
     /***
@@ -35,8 +33,10 @@ public class PendingItemsPage extends BasePage {
      */
     public int getPendingItemsTotal(){
         var searchString =":";
-        var labelText = totalCount.getText();
-        var index = labelText.indexOf(searchString)+searchString.length();
+        new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait)).until(ExpectedConditions.visibilityOfElementLocated(totalCount));
+        var total = this.driver.findElement(totalCount);
+        var labelText = total.getText();
+        var index = labelText.indexOf(searchString)+searchString.length()+1;
         var ret = labelText.substring(index);
         try{
             return Integer.parseInt(ret);

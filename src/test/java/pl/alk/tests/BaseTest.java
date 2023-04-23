@@ -13,7 +13,7 @@ import pl.alk.utils.Core;
 public class BaseTest extends Core {
     public LoginPage loginPage;
     public MainPage mainPage;
-    public CartPage cartPage;
+    //public CartPage cartPage;
     public ItemsPage itemsPage;
     public PendingItemsPage pendingItemsPage;
     private WebDriver driver;
@@ -31,6 +31,7 @@ public class BaseTest extends Core {
     public void tearDown() {
         if (Core.getCartId() != 0) {
             //TODO: remove cart if any
+            System.out.print("Removes cart if added");
         }
         if (Core.isLogged) {
             mainPage.logOut();

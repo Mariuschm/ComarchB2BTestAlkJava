@@ -1,12 +1,9 @@
 package pl.alk.utils;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.devtools.v85.domstorage.model.Item;
 import org.testng.Reporter;
 import pl.alk.model.ItemModel;
 import pl.alk.model.LoginDataModel;
@@ -19,21 +16,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Core {
-    protected static WebDriver driver;
     public static Boolean isLogged = false; //Set at false as default
-    private static int cartId =0;
+    protected static WebDriver driver;
+    protected static int cartId = 0;
 
     /***
      * Gets cart id
      * @return id of added cart
      */
-    public static   int getCartId() {
+    public static int getCartId() {
         return cartId;
     }
 
@@ -103,14 +99,9 @@ public class Core {
         try {
             var sep = ";";
             var filereader = new FileReader(filename);
-            CsvToBean<LoginDataModel> csvReader = new CsvToBeanBuilder(filereader)
-                    .withType(LoginDataModel.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .withSeparator(sep.charAt(0))
-                    .build();
-            var csvIterator = csvReader.iterator();
-            while (csvIterator.hasNext()) {
-                ret = csvIterator.next();
+            CsvToBean<LoginDataModel> csvReader = new CsvToBeanBuilder(filereader).withType(LoginDataModel.class).withIgnoreLeadingWhiteSpace(true).withSeparator(sep.charAt(0)).build();
+            for (LoginDataModel loginDataModel : csvReader) {
+                ret = loginDataModel;
             }
             return ret;
 
@@ -129,16 +120,10 @@ public class Core {
     public List<ItemModel> getItemsList(String filename) {
         List<ItemModel> ret = null;
         try {
-            var sep = ";";
             var filereader = new FileReader(filename);
-            CsvToBean<ItemModel> csvReader = new CsvToBeanBuilder(filereader)
-                    .withType(ItemModel.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .withSeparator(Config.CSV_SEPARATOR)
-                    .build();
-            var csvIterator = csvReader.iterator();
-            while (csvIterator.hasNext()) {
-                ret.add(csvIterator.next());
+            CsvToBean<ItemModel> csvReader = new CsvToBeanBuilder(filereader).withType(ItemModel.class).withIgnoreLeadingWhiteSpace(true).withSeparator(Config.CSV_SEPARATOR).build();
+            for (ItemModel itemModel : csvReader) {
+                ret.add(itemModel);
             }
             return ret;
 

@@ -5,10 +5,11 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 
 public class CustomListener extends Core implements ITestListener {
-    @Override
-    /**
-     * Saves screen of error
+    /***
+     * Takes a screenshot of page on error
+     * @param result test fail
      */
+    @Override
     public void onTestFailure(ITestResult result) {
         var file   = Config.IMAGE_PATH_ERROR+result.getMethod().getMethodName()+".JPG";
         getScreenshot(file);
