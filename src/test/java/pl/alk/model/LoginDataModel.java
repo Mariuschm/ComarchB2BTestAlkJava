@@ -1,4 +1,5 @@
 package pl.alk.model;
+
 import com.opencsv.bean.CsvBindByPosition;
 
 
@@ -11,6 +12,7 @@ public class LoginDataModel {
     private String password;
     @CsvBindByPosition(position = 3, required = true)
     private byte acceptTerms;
+
     public String getCompanyName() {
         return companyName;
     }

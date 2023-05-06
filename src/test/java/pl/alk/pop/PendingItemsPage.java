@@ -13,6 +13,7 @@ public class PendingItemsPage extends BasePage {
     private final By itemsList = By.cssSelector("div[class^='grid-table']");
     private final By totalCount = By.cssSelector("span[class*='grid-cell-full-row']");
     private final By items = By.cssSelector("div[class='grid-row body-row']");
+
     public PendingItemsPage(WebDriver driver) {
         super(driver);
     }
@@ -21,7 +22,7 @@ public class PendingItemsPage extends BasePage {
      * Returns number of pending items
      * @return size of items array
      */
-    public int getPendingItemsCount(){
+    public int getPendingItemsCount() {
         new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait)).until(ExpectedConditions.visibilityOfElementLocated(itemsList));
         var list = this.driver.findElement(itemsList);
         return list.findElements(items).size();
@@ -31,20 +32,18 @@ public class PendingItemsPage extends BasePage {
      * Returns total count of items from label
      * @return value from label
      */
-    public int getPendingItemsTotal(){
-        var searchString =":";
+    public int getPendingItemsTotal() {
+        var searchString = ":";
         new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait)).until(ExpectedConditions.visibilityOfElementLocated(totalCount));
         var total = this.driver.findElement(totalCount);
         var labelText = total.getText();
-        var index = labelText.indexOf(searchString)+searchString.length()+1;
+        var index = labelText.indexOf(searchString) + searchString.length() + 1;
         var ret = labelText.substring(index);
-        try{
+        try {
             return Integer.parseInt(ret);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return -1;
         }
     }

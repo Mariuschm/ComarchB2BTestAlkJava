@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MainPage extends BasePage {
     private final By categories = By.xpath("//li[@class='category-item inner-clear']");
+    private final By customerZoneLink = By.cssSelector("a");
+    protected By categoryNameSelector = By.cssSelector("a[class*='group-label outline button f-left']");
     @FindBy(xpath = "//i[@class='ti-briefcase']/following-sibling::*")
     private WebElement customerName;
     @FindBy(xpath = "//i[@class='ti-lock']/following-sibling::*")
@@ -23,8 +25,8 @@ public class MainPage extends BasePage {
     private WebElement logoutButton;
     @FindBy(css = "i[class$='ti-package']")
     private WebElement pendingItemsBtn;
-
-    protected By categoryNameSelector = By.cssSelector("a[class*='group-label outline button f-left']");
+    @FindBy(css = "div[class='profile-menu-adapter']")
+    private WebElement customerZone;
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -86,4 +88,8 @@ public class MainPage extends BasePage {
         return new PendingItemsPage(driver);
     }
 
+    public CustomerZonePage openCustomerZone() {
+        customerZone.findElement(customerZoneLink).click();
+        return new CustomerZonePage(driver);
+    }
 }

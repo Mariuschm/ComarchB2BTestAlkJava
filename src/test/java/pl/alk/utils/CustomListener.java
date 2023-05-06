@@ -11,9 +11,9 @@ public class CustomListener extends Core implements ITestListener {
      */
     @Override
     public void onTestFailure(ITestResult result) {
-        var file   = Config.IMAGE_PATH_ERROR+result.getMethod().getMethodName()+".JPG";
+        var file = Config.IMAGE_PATH_ERROR + result.getMethod().getMethodName() + ".JPG";
         getScreenshot(file);
-        Reporter.log("<a href='"+file+"'target ='_blank'><img src='"+file+"' width=100 height=100/></a>");
+        Reporter.log("<a href='" + file + "'target ='_blank'><img src='" + file + "' width=100 height=100/></a>");
 
     }
 }

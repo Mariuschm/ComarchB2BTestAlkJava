@@ -1,18 +1,18 @@
 package pl.alk.pop;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.alk.model.CategoryWithName;
 import pl.alk.model.ItemWithName;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class ItemsPage  extends BasePage{
+public class ItemsPage extends BasePage {
 
     @FindBy(css = "i[class='ti-view-grid']")
     protected WebElement setThumbnailViewBtn;
@@ -32,8 +32,9 @@ public class ItemsPage  extends BasePage{
     protected By cartConfirmation = By.cssSelector("div[class^='modal-content']");
     protected By cartIdLabel = By.cssSelector("strong");
     protected By goToCart = By.cssSelector("button[class='cart']");
-    protected By getProducts=(By.cssSelector("li[class*='list-item']"));
-    protected By itemNameLabel =By.cssSelector("p[class*='code']");
+    protected By getProducts = (By.cssSelector("li[class*='list-item']"));
+    protected By itemNameLabel = By.cssSelector("p[class*='code']");
+
     public ItemsPage(WebDriver driver) {
         super(driver);
     }
@@ -42,19 +43,21 @@ public class ItemsPage  extends BasePage{
     /***
      * Sets item view to ThumbnailView
      */
-    public void setThumbnailView(){
+    public void setThumbnailView() {
         setThumbnailViewBtn.click();
     }
+
     /***
      * Sets item view to ListView
      */
-    public void setListView(){
+    public void setListView() {
         setListViewBtn.click();
     }
+
     /***
      * Sets item view to Details
      */
-    public void setDetailsVie(){
+    public void setDetailsVie() {
         setDetailsViewBtn.click();
     }
 
@@ -62,18 +65,16 @@ public class ItemsPage  extends BasePage{
      * Returns display-type of current view
      * @return 0 - details view, 1- list view, 2-thumbnail view
      */
-    public int getStyleId(){
+    public int getStyleId() {
         var divClass = productsContainer.getAttribute("class");
         var searchString = "display-type-";
-        var position = divClass.indexOf(searchString)+searchString.length();
-        var ret =divClass.substring(position, position +1);
-        try{
+        var position = divClass.indexOf(searchString) + searchString.length();
+        var ret = divClass.substring(position, position + 1);
+        try {
             return Integer.parseInt(ret);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return 0;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return -1;
         }
 
@@ -81,11 +82,12 @@ public class ItemsPage  extends BasePage{
     }
 
     /*Get items count*/
+
     /***
      * Gets items count on product list
      * @return Number of items
      */
-    public int getItemsCount(){
+    public int getItemsCount() {
         var items = productsList.findElements(getProducts);
         return items.size();
     }
@@ -94,7 +96,7 @@ public class ItemsPage  extends BasePage{
      * Gets a list of items displayed with their name
      * @return ArrayList of Items with Name
      */
-    public ArrayList<ItemWithName> getItemsWithNames(){
+    public ArrayList<ItemWithName> getItemsWithNames() {
         var ret = new ArrayList<ItemWithName>();
         for (WebElement category : productsList.findElements(getProducts)) {
             var elem = new ItemWithName();
@@ -113,14 +115,21 @@ public class ItemsPage  extends BasePage{
      * @param quantity item quantity
      * @return Cart page
      */
-    public CartPage addToCart(WebElement item, double quantity){
+    public CartPage addToCart(WebElement item, double quantity) throws InterruptedException {
         //Get quantity input and pass value
         var qty = item.findElement(quantityInput);
-        qty.sendKeys(String.valueOf(quantity));
+        //Clear data for proper results does not work on autocomplete inputs
+        //Works fine when breakpoint set on field input
+        qty.clear();
+        //Workaround to clear quantity filed as clear() method does not work on autocomplete inputs
+        qty.sendKeys(Keys.CONTROL, "A");
+        qty.sendKeys(String.valueOf(quantity).replace(".", ","));
         //Chose new cart
         item.findElement(cartSelector).click();
         new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait))
                 .until(ExpectedConditions.visibilityOfElementLocated(newCartButton));
+        //Add new cart
+        driver.findElement(newCartButton).click();
         //Click add to cart
         item.findElement(addToCartButton).click();
         //Wait for confirmation

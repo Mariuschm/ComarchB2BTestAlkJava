@@ -13,6 +13,8 @@ import pl.alk.utils.Core;
 import java.time.Duration;
 
 public class LoginPage extends BasePage {
+    private final By loginErrorMessage = By.cssSelector("small[class$='danger']");
+    private final By termsNotAcceptedError = By.cssSelector("div[class='danger text-center']");
     @FindBy(id = "customerName-field")
     private WebElement customerNameInput;
     @FindBy(id = "userName-field")
@@ -23,8 +25,6 @@ public class LoginPage extends BasePage {
     private WebElement termsAndConditions;
     @FindBy(css = ".primary-action")
     private WebElement loginButton;
-    private final By loginErrorMessage = By.cssSelector("small[class$='danger']");
-    private final By termsNotAcceptedError = By.cssSelector("div[class='danger text-center']");
 
 
     public LoginPage(WebDriver driver) {
@@ -75,7 +75,7 @@ public class LoginPage extends BasePage {
 
         res.setPage(new MainPage(driver));
         res.setResult(1);
-        Core.isLogged =true;
+        Core.isLogged = true;
         return res;
     }
 

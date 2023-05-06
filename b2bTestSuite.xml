@@ -1,11 +1,33 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Comarch B2B tests" verbose="9">
-    <test name="Login tests" preserve-order="true" enabled="true" parallel="true">        
+    <test name="Login"  enabled="true">
                 <classes>
-                    <class name="pl.alk.tests.B2bTests"></class>
+                    <class name="pl.alk.tests.LoginTest"/>
+
                 </classes>
     </test>
+    <test name="Cart" enabled="true">
+        <classes>
+            <class name="pl.alk.tests.CartTest"/>
+        </classes>
+    </test>
+    <test name="Items view test" enabled="true">
+        <classes>
+            <class name="pl.alk.tests.ItemsViewTest"/>
+
+        </classes>
+    </test>
+    <test name="Pending items" enabled="true">
+        <classes>
+            <class name="pl.alk.tests.PendingItemsTest"/>
+        </classes>
+    </test>
+    <test name="Attachment" enabled="true">
+        <classes>
+            <class name="pl.alk.tests.AttachmentTest"/>
+        </classes>
+    </test>
     <listeners>
-        <listener class-name="pl.alk.utils.CustomListener"></listener>
+        <listener class-name="pl.alk.utils.CustomListener"/>
     </listeners>
 </suite>

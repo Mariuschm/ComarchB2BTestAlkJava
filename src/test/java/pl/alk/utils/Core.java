@@ -3,7 +3,9 @@ package pl.alk.utils;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Reporter;
 import pl.alk.model.ItemModel;
 import pl.alk.model.LoginDataModel;
@@ -155,5 +157,12 @@ public class Core {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void setAttributeValue(WebElement elem, String value) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute(arguments[1],arguments[2])",
+                elem, "value", value
+        );
     }
 }

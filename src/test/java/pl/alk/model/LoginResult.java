@@ -1,4 +1,5 @@
 package pl.alk.model;
+
 import pl.alk.pop.MainPage;
 
 public class LoginResult {
@@ -8,19 +9,19 @@ public class LoginResult {
     public LoginResult() {
     }
 
-    public void setPage(MainPage page) {
-        this.page = page;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
-    }
-
     public MainPage getPage() {
         return page;
     }
 
+    public void setPage(MainPage page) {
+        this.page = page;
+    }
+
     public int getResult() {
         return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
     }
 }
