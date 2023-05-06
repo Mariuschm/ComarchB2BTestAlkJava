@@ -52,7 +52,7 @@ public class LoginTest extends BaseTest {
                     4. Do not accept terms and conditions\r
                     5. Click Log on button\r
                     Result:\r
-                    1. MainPage should be returned\r
+                    1. Error should be displayed\r
                     """,
             testName = "TC102 Valid credentials login, terms not accepted")
     public void loginWithValidDataDoNotAcceptTerms() {
