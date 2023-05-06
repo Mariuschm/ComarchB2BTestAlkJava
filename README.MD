@@ -1,4 +1,4 @@
-# Projekt testów automatycznych 
+# Projekt testów automatycznych Sellenium w języku JAVA
 ## Informacje o projekcie
 ### Autor
     Mariusz Midzio
