@@ -42,7 +42,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 2,
             description = """
-                    Tests login with valid data. Entry point: \r
+                   Tests login with valid data, do not accept terms and conditions. Entry point: \r
                     1. Open browser \r
                     2. Navigate to: https://demob2b-xl.comarch.pl/ \r
                     Tasks:\r
@@ -65,18 +65,19 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(result.getResult(), -2);
     }
 
-    @Test(priority = 3, description = """
+    @Test(priority = 3,
+            description = """
             Tests login with invalid data. Entry point: \r
             1. Open browser\r
             2. Navigate to: https://demob2b-xl.comarch.pl/ \r
             Tasks:\r
-            1. Enter valid company name\r
+            1. Enter invalid company name\r
             2. Enter valid user name\r
             3. Enter valid password\r
             4. Accept terms and conditions\r
             5. Click Log on button\r
             Result:\r
-            1. MainPage should be returned\r
+            1. MainPage Error should be displayed\r
             """,
             testName = "TC103 invalid credentials login")
     public void loginWithInvalidDataTermsAccepted() {

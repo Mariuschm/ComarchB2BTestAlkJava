@@ -24,11 +24,38 @@ public class CartTest extends BaseTest {
         return getItemsIterator("./data/OrderedItems.csv");
     }
 
-    @Test(description = "Test description",
+    @Test(description = """
+            Tests adding products to cart based on csv file data. After adding product to cart verify if added quantity is equal to
+            data from csv file.
+            Entry point
+            1. Open browser
+            2. Navigate to: https://demob2b-xl.comarch.pl/
+            3. Enter valid company name
+            4. Enter valid user name
+            5. Enter valid password
+            6. Accept terms and conditions
+            7. Click Log on button
+            Tasks:
+            1. Click on a random product category
+            2. Wait for items page to appear
+            3. Click on thumbnail view button
+            4. Open category provided in csv file
+            5. Find item with code from csv file
+            6. Set quantity from csv file
+            7. Expand cart selection for product
+            8. Chose new cart
+            9. Add item to cart
+            10. Go to the cart
+            11. Check if quantity is equal to one provided
+            Results:
+            1. Cart is added
+            2. Item is added to cart
+            3. Quantity in cart is equal to one from csv file        
+            """,
             testName = "TC201 Add items to cart",
             dataProvider = "items"
-           // dependsOnMethods = "LoginTest.loginWithValidDataTermsAccepted"
-            )
+            // dependsOnMethods = "LoginTest.loginWithValidDataTermsAccepted"
+    )
     public void addToCartTest(String category, String code, String quantity) throws InterruptedException {
         //Login
         var loginData = getLoginData(new File(System.getProperty("user.dir")).getAbsolutePath() + "/data/ValidLoginData.csv");

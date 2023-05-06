@@ -1,10 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Comarch B2B tests" verbose="9">
     <test name="Login"  enabled="true">
-                <classes>
-                    <class name="pl.alk.tests.LoginTest"/>
-
-                </classes>
+        <classes>
+            <class name="pl.alk.tests.LoginTest"/>
+        </classes>
     </test>
     <test name="Cart" enabled="true">
         <classes>
