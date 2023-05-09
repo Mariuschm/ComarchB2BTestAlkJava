@@ -5,7 +5,7 @@ import org.openqa.selenium.support.PageFactory;
 import pl.alk.utils.Core;
 
 public class BasePage extends Core {
-    protected final byte defaultWait = 20; //default defaultWait for selectors, this page loads slow
+    protected final byte defaultWait = 30; //default defaultWait for selectors, this page loads slow
     protected WebDriver driver;
 
     public BasePage(WebDriver driver) {

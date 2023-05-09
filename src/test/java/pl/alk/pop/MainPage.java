@@ -31,7 +31,7 @@ public class MainPage extends BasePage {
     public MainPage(WebDriver driver) {
         super(driver);
         //Set implicitly defaultWait for 1 s.
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     /**

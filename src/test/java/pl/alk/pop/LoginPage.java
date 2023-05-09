@@ -13,8 +13,10 @@ import pl.alk.utils.Core;
 import java.time.Duration;
 
 public class LoginPage extends BasePage {
-    private final By loginErrorMessage = By.cssSelector("small[class$='danger']");
-    private final By termsNotAcceptedError = By.cssSelector("div[class='danger text-center']");
+    private final By  termsNotAcceptedError= By.cssSelector("small[class$='validation-error danger']");
+    private final By loginErrorMessage = By.cssSelector("div[class='danger text-center']");
+
+
     @FindBy(id = "customerName-field")
     private WebElement customerNameInput;
     @FindBy(id = "userName-field")
@@ -41,11 +43,12 @@ public class LoginPage extends BasePage {
      * @param acceptTerms Do you accept terms
      * @return returns LoginResult class, MainPage gets null on error, possible result values
      * 1 - ok
-     * -1 - invalid login daa
+     * -1 - invalid login data
      * -2 - terms and conditions not accepted
      */
     public LoginResult login(String companyName, String userName, String password, boolean acceptTerms) {
         var res = new LoginResult();
+        Core.isLogged = false;
         customerNameInput.sendKeys(companyName);
         userNameInput.sendKeys(userName);
         passwordInput.sendKeys(password);
