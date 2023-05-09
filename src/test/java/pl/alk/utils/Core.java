@@ -66,7 +66,7 @@ public class Core {
      * @param filename destination filename
      */
     public void getScreenshot(String filename) {
-        File dest = new File(Config.IMAGE_PATH + filename);
+        File dest = new File(filename);
         Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(500)).takeScreenshot(driver);
         try {
             ImageIO.write(screenshot.getImage(), "JPG", dest);
@@ -81,7 +81,7 @@ public class Core {
      * @param filename destination name
      */
     public void getScreenshotError(String filename) {
-        File dest = new File(Config.IMAGE_PATH_ERROR + filename);
+        File dest = new File(filename);
         Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(500)).takeScreenshot(driver);
         try {
             ImageIO.write(screenshot.getImage(), "JPG", dest);
