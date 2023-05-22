@@ -13,7 +13,6 @@
     <test name="Items view test" enabled="true">
         <classes>
             <class name="pl.alk.tests.ItemsViewTest"/>
-
         </classes>
     </test>
     <test name="Pending items" enabled="true">

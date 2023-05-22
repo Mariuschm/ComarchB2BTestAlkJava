@@ -13,9 +13,9 @@ import pl.alk.utils.Core;
 import java.time.Duration;
 
 public class LoginPage extends BasePage {
-    private final By  termsNotAcceptedError= By.cssSelector("small[class$='validation-error danger']");
+    private final By termsNotAcceptedError = By.cssSelector("small[class$='validation-error danger']");
     private final By loginErrorMessage = By.cssSelector("div[class='danger text-center']");
-
+    private final By termsAndConditionsBy = By.xpath("//span[@class='vmiddle']");
 
     @FindBy(id = "customerName-field")
     private WebElement customerNameInput;
@@ -23,8 +23,6 @@ public class LoginPage extends BasePage {
     private WebElement userNameInput;
     @FindBy(xpath = "//input[@type='password']")
     private WebElement passwordInput;
-    @FindBy(xpath = "//span[@class='vmiddle']")
-    private WebElement termsAndConditions;
     @FindBy(css = ".primary-action")
     private WebElement loginButton;
 
@@ -45,6 +43,7 @@ public class LoginPage extends BasePage {
      * 1 - ok
      * -1 - invalid login data
      * -2 - terms and conditions not accepted
+     * - 3 - could not locate terms and conditions check
      */
     public LoginResult login(String companyName, String userName, String password, boolean acceptTerms) {
         var res = new LoginResult();
@@ -52,8 +51,18 @@ public class LoginPage extends BasePage {
         customerNameInput.sendKeys(companyName);
         userNameInput.sendKeys(userName);
         passwordInput.sendKeys(password);
-        if (acceptTerms)
-            termsAndConditions.click();
+        if (acceptTerms) {
+            try {
+                new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait)).until(ExpectedConditions.visibilityOfElementLocated(termsAndConditionsBy));
+                var termsAndConditions = driver.findElement(termsAndConditionsBy);
+                termsAndConditions.click();
+            } catch (TimeoutException err) {
+                res.setPage(null);
+                res.setResult(-3);
+                return res;
+            }
+        }
+
         loginButton.click();
         try {
             new WebDriverWait(this.driver, Duration.ofSeconds(1)).until(ExpectedConditions.visibilityOfElementLocated(loginErrorMessage));
