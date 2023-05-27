@@ -30,8 +30,12 @@ public class MainPage extends BasePage {
 
     public MainPage(WebDriver driver) {
         super(driver);
-        //Set implicitly defaultWait for 5 s.
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        //Wait for all items to be visible
+        wait.until(ExpectedConditions.visibilityOf(customerName));
+        wait.until(ExpectedConditions.visibilityOf(employeeName));
+        wait.until(ExpectedConditions.visibilityOf(logoutButton));
+        wait.until(ExpectedConditions.visibilityOf(pendingItemsBtn));
+        wait.until(ExpectedConditions.visibilityOf(customerZone));
     }
 
     /**

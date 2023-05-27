@@ -29,6 +29,11 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver) {
         super(driver);
+        //Wait for all items to be visible
+        wait.until(ExpectedConditions.visibilityOf(customerNameInput));
+        wait.until(ExpectedConditions.visibilityOf(userNameInput));
+        wait.until(ExpectedConditions.visibilityOf(passwordInput));
+        wait.until(ExpectedConditions.visibilityOf(loginButton));
     }
 
     /**

@@ -1,9 +1,6 @@
 package pl.alk.pop;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,6 +34,10 @@ public class ItemsPage extends BasePage {
 
     public ItemsPage(WebDriver driver) {
         super(driver);
+        wait.until(ExpectedConditions.visibilityOf(setThumbnailViewBtn));
+        wait.until(ExpectedConditions.visibilityOf(setListViewBtn));
+        wait.until(ExpectedConditions.visibilityOf(productsList));
+        wait.until(ExpectedConditions.visibilityOf(productsContainer));
     }
     /*Set view style support*/
 
@@ -116,6 +117,10 @@ public class ItemsPage extends BasePage {
      * @return Cart page
      */
     public CartPage addToCart(WebElement item, double quantity) throws InterruptedException {
+        //Scroll down to the bottom
+        var js = (JavascriptExecutor) driver;
+        //Scroll down till the bottom of the page
+        js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
         //Get quantity input and pass value
         var qty = item.findElement(quantityInput);
         //Clear data for proper results does not work on autocomplete inputs

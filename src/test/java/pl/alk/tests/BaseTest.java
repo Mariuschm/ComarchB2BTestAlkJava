@@ -30,15 +30,21 @@ public class BaseTest extends Core {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
+
+
         if (Core.getCartId() != 0) {
             if (this.cartPage!=null){
                 cartPage.removeCart(Core.getCartId());
+                Core.cartId =0;
             }
         }
         if (Core.isLogged) {
             mainPage.logOut();
+            Core.isLogged=false;
         }
-        driver.quit();
+        if (!Core.isLogged && Core.getCartId()==0){
+            driver.quit();
+        }
     }
 
 }
