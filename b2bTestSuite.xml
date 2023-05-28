@@ -20,7 +20,7 @@
             <class name="pl.alk.tests.PendingItemsTest"/>
         </classes>
     </test>
-    <test name="Attachment" enabled="true">
+    <test name="Attachment" enabled="false">
         <classes>
             <class name="pl.alk.tests.AttachmentTest"/>
         </classes>

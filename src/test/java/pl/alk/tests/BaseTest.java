@@ -2,6 +2,8 @@ package pl.alk.tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -13,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /***
-  Base class for other tests
+ Base class for other tests
  */
 public class BaseTest extends Core {
     public LoginPage loginPage;
@@ -26,17 +28,25 @@ public class BaseTest extends Core {
 
     @BeforeMethod
     public void setUp() throws MalformedURLException {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setCapability("browserVersion", "100");
-        chromeOptions.setCapability("platformName", "Windows");
-// Showing a test name instead of the session id in the Grid UI
-        chromeOptions.setCapability("se:name", "My simple test");
-// Other type of metadata can be seen in the Grid UI by clicking on the
-// session info or via GraphQL
-        chromeOptions.setCapability("se:sampleMetadata", "Sample metadata value");
-        var grid = new URL("http://localhost:4444/");
-        driver = new RemoteWebDriver(grid,chromeOptions);
-        //driver = setDriver(Config.BROWSER);
+
+        switch (Config.BROWSER) {
+            case "firefox":
+                var firefoxOptions = new FirefoxOptions();
+                driver = new RemoteWebDriver(Config.REMOTE_DRIVER, firefoxOptions);
+                break;
+            case "edge":
+                var EdgeOptions = new EdgeOptions();
+                EdgeOptions.addArguments("--lang=pl-PL");
+                EdgeOptions.addArguments("--start-maximized");
+                driver = new RemoteWebDriver(Config.REMOTE_DRIVER, EdgeOptions);
+                break;
+            default:
+                var DefOptions = new ChromeOptions();
+                DefOptions.addArguments("lang=pl-PL");
+                driver = new RemoteWebDriver(Config.REMOTE_DRIVER, DefOptions);
+                break;
+        }
+        // driver = setDriver(Config.BROWSER);
         driver.get("https://demob2b-xl.comarch.pl/");
         //Maximize window
         driver.manage().window().maximize();
@@ -48,16 +58,16 @@ public class BaseTest extends Core {
 
 
         if (Core.getCartId() != 0) {
-            if (this.cartPage!=null){
+            if (this.cartPage != null) {
                 cartPage.removeCart(Core.getCartId());
-                Core.cartId =0;
+                Core.cartId = 0;
             }
         }
         if (Core.isLogged) {
             mainPage.logOut();
-            Core.isLogged=false;
+            Core.isLogged = false;
         }
-        if (!Core.isLogged && Core.getCartId()==0){
+        if (!Core.isLogged && Core.getCartId() == 0) {
             driver.quit();
         }
     }
