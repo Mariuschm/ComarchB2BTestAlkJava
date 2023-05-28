@@ -31,6 +31,8 @@ public class CartPage extends BasePage {
 
     public CartPage(WebDriver driver) {
         super(driver);
+        wait.until(ExpectedConditions.visibilityOf(cartSelector));
+        wait.until(ExpectedConditions.visibilityOf(articles));
     }
 
     /***
