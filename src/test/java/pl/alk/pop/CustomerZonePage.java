@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.alk.model.DownloadItem;
 import pl.alk.utils.Config;
@@ -12,6 +13,7 @@ import pl.alk.utils.Config;
 import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class CustomerZonePage extends BasePage {
     protected By downloads = By.cssSelector("a[class*='files']");
@@ -32,8 +34,23 @@ public class CustomerZonePage extends BasePage {
      */
     public ArrayList<DownloadItem> getFiles() {
         //Go to download section
+        try {
+            new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait))
+                    .until(ExpectedConditions.visibilityOfElementLocated(downloads));
+        } catch (NoSuchElementException err) {
+            return null;
+        }
         menu.findElement(downloads).click();
+
         //Get list of files
+        //Wait for list of files to appear
+        try {
+            new WebDriverWait(this.driver, Duration.ofSeconds(defaultWait))
+                    .until(ExpectedConditions.visibilityOfElementLocated(fileList));
+        } catch (NoSuchElementException err) {
+            return null;
+        }
+
         var list = new ArrayList<DownloadItem>();
         for (WebElement file :
                 driver.findElement(fileList).findElements(file)) {
