@@ -8,7 +8,7 @@ public class LoginDataModel {
     private String companyName;
     @CsvBindByPosition(position = 1, required = true)
     private String userName;
-    @CsvBindByPosition(position = 2, required = true)
+    @CsvBindByPosition(position = - 2, required = true)
     private String password;
     @CsvBindByPosition(position = 3, required = true)
     private byte acceptTerms;

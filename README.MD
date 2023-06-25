@@ -103,16 +103,53 @@ data from csv file.
 * Quantity in cart is equal to one from csv file
 
 #### Items view test [300]
+###### Entry point:
+* Open browser
+* Navigate to: https://demob2b-xl.comarch.pl/ 
+* Enter valid company name
+* Enter valid user name
+* Enter valid password
+* Accept terms and conditions
+* Click Log on button
+###### Tasks:
+* Click on a random product category
+* Wait for items page to appear\
+* Click on thumbnail view button
+###### Result:
+* View is change to thumbnail type 
+* Class of div is changed to display-type-2
 
 #### Pending items  test [400]
-
+###### Entry point:
+* Open browser
+* Navigate to: https://demob2b-xl.comarch.pl/ 
+* Enter valid company name
+* Enter valid user name
+* Enter valid password
+* Accept terms and conditions
+* Click Log on button
+###### Tasks:
+* Click on a pending list button
+* Wait for pending list to appear
+* Count all items
+* Get number from total lable
+###### Result:
+* List is loaded
+* Items count from list is greater then 0 and equal to number from label
 #### Attachment test[500]
-
-### Strony
-#### BasePage
-#### MainPage
-#### LoginPage
-#### CartPage
-#### ItemsPage
-#### CustomerZonePage
-#### PendingItemsPage
+###### Entry point:
+* Open browser
+* Navigate to: https://demob2b-xl.comarch.pl/
+* Enter valid company name
+* Enter valid user name
+* Enter valid password
+* Accept terms and conditions
+* Click Log on button
+###### Tasks:
+* Click on a Customer Zone Icon
+* Wait for Customer Zone to open
+* Navigate do Downloads section
+* Download a file
+###### Result:
+* File is downloaded in lest then 30s (default wait time)
+* File is deleted after test finish
